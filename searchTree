@@ -11,3 +11,15 @@ No* criarNo(int chave){
   
   return novoNo;
 }
+
+No* inserir(No* raiz, int chave) {
+    if (raiz == NULL) {
+        return criarNo(chave);
+    }
+    if (chave < raiz->chave) {
+        raiz->esquerda = inserir(raiz->esquerda, chave);
+    } else if (chave > raiz->chave) {
+        raiz->direita = inserir(raiz->direita, chave);
+    }
+    return raiz;
+}
