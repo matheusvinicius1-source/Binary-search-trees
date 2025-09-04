@@ -23,3 +23,40 @@ No* inserir(No* raiz, int chave) {
     }
     return raiz;
 }
+
+
+// Função auxiliar para encontrar o nó com o menor valor
+No* Menor(No* raiz) {
+    while (raiz != NULL && raiz->esquerda != NULL) {
+        raiz = raiz->esquerda;
+    }
+    return raiz;
+}
+// Função para remover um nó da árvore
+No* remover(No* raiz, int chave) {
+    if (raiz == NULL) {
+        return NULL;
+    }
+
+    if (chave < raiz->chave) {
+        raiz->esquerda = remover(raiz->esquerda, chave);
+    } else if (chave > raiz->chave) {
+        raiz->direita = remover(raiz->direita, chave);
+    } else {
+        // Caso com 0 ou 1 filho
+        if (raiz->esquerda == NULL) {
+            No* temp = raiz->direita;
+            free(raiz);
+            return temp;
+        } else if (raiz->direita == NULL) {
+            No* temp = raiz->esquerda;
+            free(raiz);
+            return temp;
+        }
+        // Caso com 2 filhos
+        No* temp = Menor(raiz->direita);
+        raiz->chave = temp->chave;
+        raiz->direita = remover(raiz->direita, temp->chave);
+    }
+    return raiz;
+}
